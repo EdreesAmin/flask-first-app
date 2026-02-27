@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1 class="mb-4">API Data Demo</h1>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5>Fetch Data from API</h5>
+                    <p>Click the button below to fetch sample data from the REST API endpoint.</p>
+                    <button id="fetchData" class="btn btn-primary">Fetch Data</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h5>API Response</h5>
+                </div>
+                <div class="card-body">
+                    <pre id="apiResponse" class="bg-light p-3 rounded" style="max-height: 400px; overflow-y: auto;">
+                        <code>Click the button to fetch data...</code>
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('fetchData').addEventListener('click', function() {
+    fetch('/api/data')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('apiResponse').innerHTML = 
+                '<code>' + JSON.stringify(data, null, 2) + '</code>';
+        })
+        .catch(error => {
+            document.getElementById('apiResponse').innerHTML = 
+                '<code class="text-danger">Error fetching data: ' + error + '</code>';
+        });
+});
+</script>
+{% endblock %}
